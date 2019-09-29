@@ -44,20 +44,33 @@ feature -- Commands
             imp[imp.count] := temp
 		ensure
 			size_unchanged: count = old count -- Your Task
-			items_shifted: across 1 |..| imp.count is i all imp[i] ~ (old imp.deep_twin)[(imp.count \\ i) + 1] end -- Your Task
+			items_shifted: across 1 |..| imp.count is i all
+				((i /= imp.count implies imp[i] ~ (old imp.deep_twin)[i + 1]) and i = imp.count implies imp[i] ~ (old imp.deep_twin)[1]) end -- Your Task
 		end
 
 	insert_first (s: STRING)
 			-- Insert 's' as the first item in the container.
 		require
 			s_not_empty: s /= void -- Your Task
+		local
+		j:INTEGER
 		do
 			-- Your Task
 			count := count + 1
-			across 1 |..| imp.count is i loop
-            	imp[i + 1] := imp[i]
-            end
-            imp[1] := s
+
+			if not imp.is_empty then
+				from
+					j := imp.upper
+				until
+					j < imp.lower
+				loop
+					imp.force (imp[j], j + 1)
+					j := j - 1
+				end
+				imp.force (s, 1)
+			else
+				imp.force (s, 1)
+			end
 		ensure
 			size_incremented: count = old count + 1 -- Your Task
 			first_inserted: imp[1] ~ s -- Your Task

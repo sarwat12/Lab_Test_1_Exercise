@@ -30,7 +30,26 @@ feature -- Tests
 		local
 			ac: ARRAYED_CONTAINER
 		do
-			Result := true
+			comment("Testing the ARRAYED_CONTAINER class")
+			create ac.make
+			Result := ac.count = 0
+			check Result end
+
+		    ac.insert_first ("A")
+		    Result := ac.count = 1 and ac.get_at (0) ~ "A"
+		    check Result end
+
+		    ac.insert_first ("B")
+		    ac.insert_first ("C")
+		    Result := ac.count = 3 and ac.get_at (0) ~ "C" and ac.get_at (1) ~ "B" and ac.get_at (2) ~ "A"
+		    check Result end
+
+			ac.circular_shift_to_left
+			Result := ac.count = 3 and ac.get_at (0) ~ "B" and ac.get_at (1) ~ "A" and ac.get_at (2) ~ "C"
+			check Result end
+
+			Result := ac.valid_index (0) and ac.valid_index (1) and ac.valid_index (2) and not ac.valid_index (3)
+			check Result end
 		end
 
 end
