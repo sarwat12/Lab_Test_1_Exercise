@@ -1,11 +1,11 @@
 note
-	description: "EECS3311 Lab Test 1 Exercise"
+	description: "Summary description for {LINKED_LIST_CONTAINER}."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	ARRAYED_CONTAINER
+	LINKED_LIST_CONTAINER
 
 create
 	make
@@ -14,7 +14,7 @@ feature {NONE} -- Implementation attribute
 	-- Once you complete the current version where `imp` is an array,
 	-- duplicate the starter project and change it to `imp: LINKED_LIST[STRING]`.
 	-- Then complete the alternative version so you can also practice the use of a linked list.
-	imp: ARRAY[STRING]
+	imp: LINKED_LIST[STRING]
 
 feature -- Public Attributes
 	count: INTEGER -- You must keep this as an attribute.
