@@ -24,31 +24,44 @@ feature -- Constructor
 			-- Initialize an empty container.
 		do
 			create imp.make_empty
+			count := 0
 		ensure
-			empty_container: True -- Your Task
+			empty_container: count = 0 -- Your Task
 		end
 
 feature -- Commands
 
 	circular_shift_to_left
 			-- Circularly shift all items to the left by one position.
+		local
+			temp: STRING
 		do
 			-- Your Task
+            temp := imp[1]
+            across 2 |..| imp.count is i loop
+            	imp[i - 1] := imp[i]
+            end
+            imp[imp.count] := temp
 		ensure
-			size_unchanged: True -- Your Task
-			items_shifted: True -- Your Task
+			size_unchanged: count = old count -- Your Task
+			items_shifted: across 1 |..| imp.count is i all imp[i] ~ (old imp.deep_twin)[(imp.count \\ i) + 1] end -- Your Task
 		end
 
 	insert_first (s: STRING)
 			-- Insert 's' as the first item in the container.
 		require
-			s_not_empty: True -- Your Task
+			s_not_empty: s /= void -- Your Task
 		do
 			-- Your Task
+			count := count + 1
+			across 1 |..| imp.count is i loop
+            	imp[i + 1] := imp[i]
+            end
+            imp[1] := s
 		ensure
-			size_incremented: True -- Your Task
-			first_inserted: True -- Your Task
-			others_unchanged: True -- Your Task
+			size_incremented: count = old count + 1 -- Your Task
+			first_inserted: imp[1] ~ s -- Your Task
+			others_unchanged: across 2 |..| imp.count is i all imp[i] ~ (old imp.deep_twin)[i - 1] end -- Your Task
 		end
 
 
@@ -58,20 +71,21 @@ feature -- Query
 			-- Is 'i' a valid index of the container?
 		do
 			-- Your Task
+			Result := i >= 0 and i <= count - 1
 		ensure
-			result_correct: True -- Your Task
-			nothing_changed: True -- Your Task
+			result_correct: Result = (i >= 0 and i <= count - 1) -- Your Task
+			nothing_changed: across 1 |..| imp.count is j all imp[j] ~ (old imp.deep_twin)[j] end -- Your Task
 		end
 
 	get_at (i: INTEGER): STRING
 		require
-			valid_index: True -- Your Task
+			valid_index: valid_index (i) -- Your Task
 		do
 			-- Your Task (delete the line below if necessary)
-			Result := ""
+			Result := imp[i + 1]
 		ensure
-			result_correct: True -- Your Task
-			nothing_changed: True -- Your Task
+			result_correct: Result = imp[i + 1] -- Your Task
+			nothing_changed: across 1 |..| imp.count is j all imp[j] ~ (old imp.deep_twin)[j] end -- Your Task
 		end
 
 invariant
