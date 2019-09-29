@@ -84,7 +84,7 @@ feature -- Query
 			-- Is 'i' a valid index of the container?
 		do
 			-- Your Task
-			Result := i >= 0 and i <= count - 1
+			Result := (i >= 0) and (i <= count - 1)
 		ensure
 			result_correct: Result = (i >= 0 and i <= count - 1) -- Your Task
 			nothing_changed: across 1 |..| imp.count is j all imp[j] ~ (old imp.deep_twin)[j] end -- Your Task
