@@ -65,19 +65,19 @@ feature -- Commands
 
 feature -- Query
 
---	valid_index (i: INTEGER): BOOLEAN
---			-- Is 'i' a valid index of the container?
---		do
---			 -- Your Task
---			Result := i >= 0 and i <= count - 1
---		ensure
---			result_correct: Result = i >= 0 and i <= count - 1 -- Your Task
---			nothing_changed: across 1 |..| imp.count is j all imp.i_th (j) ~ (old imp.deep_twin).i_th (j) -- Your Task
---		end
+	valid_index (i: INTEGER): BOOLEAN
+			-- Is 'i' a valid index of the container?
+		do
+			 -- Your Task
+			Result := i >= 0 and i <= count - 1
+		ensure
+			result_correct: Result = (i >= 0 and i <= count - 1) -- Your Task
+			nothing_changed: across 1 |..| imp.count is j all imp.i_th (j) ~ (old imp.deep_twin).i_th (j) end -- Your Task
+		end
 
 	get_at (i: INTEGER): STRING
 		require
-			valid_index: TRUE--valid_index (i) -- Your Task
+			valid_index: valid_index (i) -- Your Task
 		do
 			 -- Your Task (delete the line below if necessary)
 			Result := imp.i_th (i + 1)
